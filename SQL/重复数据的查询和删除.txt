@@ -1,0 +1,9 @@
+# 查询重复数据并计数
+SELECT *,COUNT(1) AS COUNT from t_dept group by dept_name,dept_master HAVING count(1) > 1
+
+# 删除所有重复数据
+DELETE from t_dept where dept_name in (SELECT r.dept_name from (SELECT dept_name from t_dept group by dept_name having count(1) > 1) r) 
+
+# 删除重复数据保留一条
+DELETE from t_dept where id not in (SELECT r.minid from (SELECT min(id) as minid from t_dept group by dept_name) r)
+
